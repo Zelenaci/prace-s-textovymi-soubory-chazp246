@@ -8,10 +8,4 @@ from random import randint, choice
 
 ############################################################################
 
-
-def f():
-    return None
-
-
-if __name__ == "__main__":
-    print(f())
+#test
