@@ -145,7 +145,10 @@ def menu():
     elif cinnost == 3:
         znakA = input("Zadej znak který bude změněn: ")
         znakB = input(f"Zadej znak na který se bude {znakA} měnit: ")
-        menic(soubor, znakA , znakB)
+        if znakA == "" or znakB == "":
+            menic(soubor)
+        else:
+            menic(soubor, znakA , znakB)
     elif cinnost == 4:
         try:
             minvet = int(input("Minimální počet vět: "))
