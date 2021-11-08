@@ -1,0 +1,10 @@
+# ignore all .env
+**/*.env
+**/*.txt
+*.txt
+*.jpg
+**/*.jpg
+*.png
+**/*.png
+*.gif
+**/*.gif
