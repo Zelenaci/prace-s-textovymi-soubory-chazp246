@@ -6,7 +6,11 @@
 from random import randint, choice
 
 def pocitadlo(soubor):
-    f = open(soubor, "r")
+    try:
+        f = open(soubor, "r")
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
     pocet = {}
 
     while True:
@@ -53,15 +57,19 @@ def text(minvet = 3, maxvet = 10):
     return text
 
 def generator(soubor, minvet = 3, maxvet = 10):
-    f = open(soubor,"w")
+    f = open(soubor, "w")
     f.write(text(minvet, maxvet))
     f.close()
 
 def menic(soubor, znakA, znakB):
-    f = open(soubor, "r")
+    try:
+        f = open(soubor, "r")
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
 
     soubor2 = soubor.split(".")[0]
-    fB = open(f"{soubor2}_meneno.txt","w")
+    fB = open(f"{soubor2}_meneno.txt", "w")
 
     while True:
         pismeno = f.read(1)
@@ -75,7 +83,11 @@ def menic(soubor, znakA, znakB):
     fB.close()
 
 def zmensovac(soubor):
-    f = open(soubor, "r")
+    try:
+        f = open(soubor, "r")
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
     soubor2 = soubor.split(".")[0]
     fB = open(f"{soubor2}_zmenseno.txt","w")
 
@@ -90,10 +102,14 @@ def zmensovac(soubor):
     fB.close()
 
 def zvetsovac(soubor):
-
-    f = open(soubor, "r")
+    try:
+        f = open(soubor, "r")
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
+    
     soubor2 = soubor.split(".")[0]
-    fB = open(f"{soubor2}_zveteseno.txt","w")
+    fB = open(f"{soubor2}_zvetseno.txt","w")
 
     while True:
         pismeno = f.read(1).upper()
@@ -105,15 +121,8 @@ def zvetsovac(soubor):
     f.close()
     fB.close()
 
-
-while True:
+def menu():
     soubor = input("Zadej jmeno souboru: ")
-    try:
-        f = open(soubor, "r")
-        f.close()
-    except FileNotFoundError as e:
-        print(f"Soubor se nepovedlo otevřít. {e.filename}")
-        exit(1)
     print("""
     1) - převod na malá písmena
     2) - převod na velké písmena
@@ -122,33 +131,41 @@ while True:
     5) - počitadlo písmen
     ENTER - Konec
     """)
+    
     try:
         cinnost = int(input("Zadej co chceš provést: "))
     except:
-        break
-
-    #generator(soubor)
-    #pocitadlo(soubor)
-    #menic(soubor, "a" , "@")
-    #zmensovac(soubor)
-    #zvetsovac(soubor)
-    if cinnost == "":
-        break
-    elif cinnost == 1:
+        print("Neplatná volba!")
+        exit(1)
+    
+    if cinnost == 1:
         zmensovac(soubor)
     elif cinnost == 2:
         zvetsovac(soubor)
     elif cinnost == 3:
         znakA = input("Zadej znak který bude změněn: ")
-        znakB = input("Zadej znak na který se bude znakA měnit: ")
-        menic(soubor, "a" , "@")
+        znakB = input(f"Zadej znak na který se bude {znakA} měnit: ")
+        menic(soubor, znakA , znakB)
     elif cinnost == 4:
         try:
             minvet = int(input("Minimální počet vět: "))
             maxvet = int(input("Zadej Maximální počet vět: "))
         except:
             print("Musíš zadat celé číslo")
-            break
+            exit(1)
         generator(soubor, minvet, maxvet)
     elif cinnost == 5:
         pocitadlo(soubor)
+    else:
+        exit(0)
+
+while True:
+    menu()
+    try:
+        pokracovat = int(input("Chceš pokračovat dál?(1/0): "))
+    except:
+        break
+    if pokracovat == 1:
+        menu()
+    else:
+        break 
