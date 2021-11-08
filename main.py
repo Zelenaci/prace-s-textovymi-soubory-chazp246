@@ -6,12 +6,7 @@
 from random import randint, choice
 
 def pocitadlo(soubor):
-    try:
-        f = open(soubor, "r")
-    except FileNotFoundError:
-        print("Tento soubor nelze otevřít!")
-        exit(1)
-
+    f = open(soubor, "r")
     pocet = {}
 
     while True:
@@ -58,20 +53,13 @@ def text(minvet = 3, maxvet = 10):
     return text
 
 def generator(soubor, minvet = 3, maxvet = 10):
-    try:
-        f = open(soubor,"w")
-    except FileNotFoundError as e:
-        print(f"Soubor se nepovedlo otevřít. {e.filename}")
-        exit(1)
+    f = open(soubor,"w")
     f.write(text(minvet, maxvet))
     f.close()
 
 def menic(soubor, znakA, znakB):
-    try:
-        f = open(soubor, "r")
-    except FileNotFoundError as e:
-        print(f"Soubor se nepovedlo otevřít. {e.filename}")
-        exit(1)
+    f = open(soubor, "r")
+
     soubor2 = soubor.split(".")[0]
     fB = open(f"{soubor2}_meneno.txt","w")
 
@@ -87,11 +75,7 @@ def menic(soubor, znakA, znakB):
     fB.close()
 
 def zmensovac(soubor):
-    try:
-        f = open(soubor, "r")
-    except FileNotFoundError as e:
-        print(f"Soubor se nepovedlo otevřít. {e.filename}")
-        exit(1)
+    f = open(soubor, "r")
     soubor2 = soubor.split(".")[0]
     fB = open(f"{soubor2}_zmenseno.txt","w")
 
@@ -106,11 +90,8 @@ def zmensovac(soubor):
     fB.close()
 
 def zvetsovac(soubor):
-    try:
-        f = open(soubor, "r")
-    except FileNotFoundError as e:
-        print(f"Soubor se nepovedlo otevřít. {e.filename}")
-        exit(1)
+
+    f = open(soubor, "r")
     soubor2 = soubor.split(".")[0]
     fB = open(f"{soubor2}_zveteseno.txt","w")
 
@@ -124,12 +105,50 @@ def zvetsovac(soubor):
     f.close()
     fB.close()
 
-soubor = input("Zadej jmeno souboru: ")
-cinnost = int(input("Zadej co chceš provést: "))
 
-#generator(soubor)
-#pocitadlo(soubor)
-#menic(soubor, "a" , "@")
-#zmensovac(soubor)
-zvetsovac(soubor)
+while True:
+    soubor = input("Zadej jmeno souboru: ")
+    try:
+        f = open(soubor, "r")
+        f.close()
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
+    print("""
+    1) - převod na malá písmena
+    2) - převod na velké písmena
+    3) - změna znaku
+    4) - generátor nádhodného textu
+    5) - počitadlo písmen
+    ENTER - Konec
+    """)
+    try:
+        cinnost = int(input("Zadej co chceš provést: "))
+    except:
+        break
 
+    #generator(soubor)
+    #pocitadlo(soubor)
+    #menic(soubor, "a" , "@")
+    #zmensovac(soubor)
+    #zvetsovac(soubor)
+    if cinnost == "":
+        break
+    elif cinnost == 1:
+        zmensovac(soubor)
+    elif cinnost == 2:
+        zvetsovac(soubor)
+    elif cinnost == 3:
+        znakA = input("Zadej znak který bude změněn: ")
+        znakB = input("Zadej znak na který se bude znakA měnit: ")
+        menic(soubor, "a" , "@")
+    elif cinnost == 4:
+        try:
+            minvet = int(input("Minimální počet vět: "))
+            maxvet = int(input("Zadej Maximální počet vět: "))
+        except:
+            print("Musíš zadat celé číslo")
+            break
+        generator(soubor, minvet, maxvet)
+    elif cinnost == 5:
+        pocitadlo(soubor)
