@@ -33,4 +33,38 @@ def pocitadlo(soubor):
 
     f.close()
 
+def slovo(maxchars = 7):
+    samohlasky = "aeiyou"
+    souhlasky = "qwrtpsdfghjklzxcvbnm"
+    slovo = ""
+    for i in range(randint(1, maxchars)):
+        if i % 2 == randint(0, 1):
+            slovo = slovo + choice(souhlasky)
+        else:    
+            slovo = slovo + choice(samohlasky)
+    return slovo 
+
+def veta(minslovo = 3, maxslovo = 12):
+    veta = ""
+    for i in range(randint(minslovo, maxslovo)):
+        veta = veta + slovo() + " "
+    veta = (veta[:-1] + ".").capitalize()
+    return veta
+
+def text(minvet = 3, maxvet = 10):
+    text = ""
+    for i in range(randint(minvet, maxvet)):
+        text = text + veta()
+        if randint(1, 5) == 5:
+            text = text + "\n"
+    return text
+
+def generator(soubor, minvet = 3, maxvet = 10):
+    f = open(soubor,"w")
+    f.write(text(30, 100))
+    f.close()
+
+
+
+generator(soubor)
 pocitadlo(soubor)
