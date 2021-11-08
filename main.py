@@ -60,11 +60,35 @@ def text(minvet = 3, maxvet = 10):
     return text
 
 def generator(soubor, minvet = 3, maxvet = 10):
-    f = open(soubor,"w")
-    f.write(text(30, 100))
+    try:
+        f = open(soubor,"w")
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
+    f.write(text(minvet, maxvet))
     f.close()
 
+def menic(soubor):
+    try:
+        f = open(soubor, "r")
+    except FileNotFoundError as e:
+        print(f"Soubor se nepovedlo otevřít. {e.filename}")
+        exit(1)
+    fB = open("textB.txt","a")
+
+    while True:
+        pismeno = f.read(1).lower()
+        if pismeno == "a":
+            pismeno = "@"
+        if pismeno == "":
+            break
+        fB.write(pismeno)
+        
+
+    f.close()
+    fB.close()
 
 
-generator(soubor)
-pocitadlo(soubor)
+#generator(soubor)
+#pocitadlo(soubor)
+menic(soubor)
